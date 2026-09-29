@@ -1,0 +1,99 @@
+/* =====================================================================
+   Admin panel styles (loaded only on /admin pages)
+   ===================================================================== */
+body.admin { background: #F3F7FA; font-size: 16px; }
+.admin-shell { display: grid; grid-template-columns: 250px minmax(0, 1fr); min-height: 100vh; }
+.admin-side { background: var(--ink); color: #C5D4E0; padding: 18px 12px; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+.admin-side .brand { padding: 4px 8px 18px; border-bottom: 1px solid rgba(255, 255, 255, .08); margin-bottom: 12px; }
+.admin-side .brand img { width: 38px; height: 38px; }
+.admin-side .brand-text b { color: #fff; font-size: .82rem; }
+.admin-side .brand-text span { color: var(--brand); font-size: .6rem; }
+.admin-nav { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+.admin-nav a, .admin-nav button { display: flex; align-items: center; gap: 11px; width: 100%; padding: 9px 12px; border-radius: 8px; color: #C5D4E0; font-size: .93rem; text-decoration: none; background: none; border: 0; cursor: pointer; text-align: left; }
+.admin-nav a:hover, .admin-nav button:hover { background: rgba(255, 255, 255, .07); color: #fff; }
+.admin-nav a[aria-current="page"] { background: var(--brand); color: var(--ink); font-weight: 600; }
+.admin-nav .ico { width: 18px; height: 18px; }
+.admin-nav .count { margin-left: auto; background: var(--accent); color: #fff; border-radius: 99px; font-size: .72rem; padding: 0 7px; line-height: 1.6; }
+.admin-nav .sep { height: 1px; background: rgba(255, 255, 255, .08); margin: 8px 4px; }
+.admin-main { min-width: 0; }
+.admin-top { background: #fff; border-bottom: 1px solid var(--line); padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.admin-top h1 { font-size: 1.35rem; margin: 0; }
+.admin-top .who { font-size: .88rem; color: var(--muted); display: flex; gap: 12px; align-items: center; }
+.admin-menu-btn { display: none; }
+.admin-content { padding: 26px 28px 60px; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+.toolbar .left { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.toolbar .input, .toolbar .select { min-height: 40px; width: auto; min-width: 220px; }
+.tile-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-bottom: 28px; }
+.tile { background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 18px 20px; }
+.tile span { display: block; color: var(--muted); font-size: .86rem; }
+.tile b { display: block; font-size: 1.7rem; color: var(--ink); font-weight: 600; line-height: 1.3; }
+.tile.hl { border-color: var(--accent); background: #FFF7F1; }
+.panel { background: #fff; border: 1px solid var(--line); border-radius: 12px; margin-bottom: 22px; }
+.panel-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.panel-head h2 { font-size: 1.08rem; margin: 0; }
+.panel-body { padding: 18px; }
+.table .actions { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
+.table td.actions-cell { text-align: right; white-space: nowrap; }
+.table .thumb-sm { width: 64px; height: 36px; object-fit: cover; border-radius: 4px; background: var(--brand-100); }
+.table .cover-sm { width: 36px; height: 48px; object-fit: cover; border-radius: 3px; background: var(--brand-100); }
+.table td small { display: block; color: var(--muted); }
+.icon-btn { width: 34px; height: 34px; border-radius: 7px; border: 1px solid var(--line); background: #fff; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; color: var(--navy); padding: 0; }
+.icon-btn:hover { background: var(--soft); }
+.icon-btn.danger { color: var(--danger); }
+.icon-btn .ico { width: 16px; height: 16px; }
+.icon-btn:disabled { opacity: .35; cursor: default; }
+
+.admin-modal { border: 0; border-radius: 14px; padding: 0; width: min(720px, calc(100% - 20px)); max-height: calc(100vh - 30px); box-shadow: 0 20px 60px rgba(0, 0, 0, .25); }
+.admin-modal.wide { width: min(960px, calc(100% - 20px)); }
+.admin-modal::backdrop { background: rgba(8, 20, 32, .55); }
+.admin-modal form { display: flex; flex-direction: column; max-height: calc(100vh - 30px); }
+.modal-head { padding: 16px 22px; border-bottom: 1px solid var(--line); display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.modal-head h2 { margin: 0; font-size: 1.15rem; }
+.modal-body { padding: 20px 22px; overflow-y: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 14px 16px; }
+.modal-body .full { grid-column: 1 / -1; }
+.modal-foot { padding: 14px 22px; border-top: 1px solid var(--line); display: flex; justify-content: flex-end; gap: 10px; background: var(--soft); border-radius: 0 0 14px 14px; }
+.modal-body .input, .modal-body .select { min-height: 42px; }
+.modal-body .textarea { min-height: 96px; }
+.img-field { display: flex; gap: 12px; align-items: center; }
+.img-field img { width: 88px; height: 56px; object-fit: cover; border-radius: 6px; border: 1px solid var(--line); background: var(--brand-50); flex: none; }
+.img-field .grow { flex: 1; display: grid; gap: 6px; min-width: 0; }
+.file-btn { position: relative; overflow: hidden; }
+.file-btn input[type="file"] { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.code-box { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 1.6rem; letter-spacing: .08em; text-align: center; padding: 18px; border: 2px dashed var(--brand-700); border-radius: 12px; background: var(--brand-50); color: var(--ink); font-weight: 700; word-break: break-all; }
+.module-block { border: 1px solid var(--line); border-radius: 12px; background: #fff; margin-bottom: 16px; }
+.module-head { display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: var(--soft); border-bottom: 1px solid var(--line); border-radius: 12px 12px 0 0; flex-wrap: wrap; }
+.module-head h3 { margin: 0; font-size: 1.02rem; flex: 1; min-width: 160px; }
+.lesson-row { display: flex; align-items: center; gap: 10px; padding: 10px 16px; border-bottom: 1px dashed var(--line); flex-wrap: wrap; }
+.lesson-row:last-child { border-bottom: 0; }
+.lesson-row .t { flex: 1; min-width: 180px; }
+.lesson-row .t small { color: var(--muted); display: block; }
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: 18px; overflow-x: auto; }
+.tabs button, .tabs a { padding: 10px 14px; border: 0; background: none; font-weight: 600; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; white-space: nowrap; text-decoration: none; }
+.tabs [aria-selected="true"] { color: var(--ink); border-bottom-color: var(--navy); }
+.settings-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.settings-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; }
+.settings-grid .full { grid-column: 1 / -1; }
+.sticky-save { position: sticky; bottom: 0; background: rgba(243, 247, 250, .96); padding: 12px 0; border-top: 1px solid var(--line); display: flex; justify-content: flex-end; gap: 10px; z-index: 5; }
+.help { font-size: .84rem; color: var(--muted); background: var(--brand-50); border: 1px solid var(--brand-200); border-radius: 8px; padding: 10px 12px; }
+.help code { background: #fff; padding: 0 4px; border-radius: 4px; }
+.msg-card { padding: 16px 18px; border-bottom: 1px solid var(--line); }
+.msg-card.unread { background: #FFFBF5; }
+.msg-card:last-child { border-bottom: 0; }
+.admin-login { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px 16px; background: var(--ink); }
+.admin-login .auth-card { max-width: 400px; }
+
+@media (max-width: 1024px) {
+  .admin-shell { grid-template-columns: 1fr; }
+  .admin-side { position: fixed; left: 0; top: 0; bottom: 0; width: 260px; z-index: 60; transform: translateX(-100%); transition: transform .2s; }
+  .admin-side.open { transform: none; box-shadow: 0 0 40px rgba(0, 0, 0, .3); }
+  .admin-menu-btn { display: inline-flex; }
+  .tile-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .admin-content { padding: 20px 16px 60px; }
+  .admin-top { padding: 12px 16px; }
+}
+@media (max-width: 640px) {
+  .modal-body, .settings-grid { grid-template-columns: 1fr; }
+  .toolbar .input, .toolbar .select { min-width: 0; width: 100%; }
+  .tile-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+}

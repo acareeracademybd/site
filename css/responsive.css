@@ -1,0 +1,100 @@
+/* =====================================================================
+   Responsive rules — tested at 320, 375, 390, 414, 768, 1024, 1366 px
+   ===================================================================== */
+
+@media (max-width: 1120px) {
+  .nav-toggle { display: inline-flex; }
+  .main-nav { display: none; position: absolute; left: 0; right: 0; top: 100%; background: #fff; border-bottom: 1px solid var(--line); box-shadow: 0 12px 24px rgba(15, 36, 56, .08); }
+  .main-nav.open { display: block; }
+  .main-nav ul { flex-direction: column; align-items: stretch; gap: 0; padding: 8px 16px 16px; }
+  .main-nav a { padding: 13px 12px; font-size: .92rem; border-bottom: 1px solid var(--line); border-radius: 0; }
+  .main-nav a[aria-current="page"] { box-shadow: inset 3px 0 0 var(--brand-700); background: var(--brand-50); }
+  .main-nav .nav-login { margin: 12px 0 0; text-align: center; border-bottom: 0; border-radius: 8px; }
+}
+
+@media (max-width: 1024px) {
+  .hero-inner { grid-template-columns: 1fr; gap: 36px; padding-top: 44px; padding-bottom: 52px; }
+  .hero h1 { font-size: 2.35rem; }
+  .hero-feature { max-width: 560px; }
+  .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .feature-grid > * { flex-basis: calc((100% - 24px) / 2); }
+  .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .video-block { grid-template-columns: 1fr; gap: 24px; }
+  .ebook-row { grid-auto-columns: calc((100% - 24px) / 2); }
+  .detail-grid, .checkout-grid, .player-grid { grid-template-columns: 1fr; }
+  .detail-aside { order: -1; }
+  .sticky-box, .outline { position: static; max-height: none; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .trainer { grid-template-columns: 260px 1fr; gap: 32px; }
+  .contact-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  body { font-size: 16px; }
+  h1 { font-size: 1.9rem; }
+  h2 { font-size: 1.5rem; }
+  .wrap { padding: 0 16px; }
+  .section { padding: 52px 0; }
+  .section-head { margin-bottom: 28px; }
+  .section-head-row { flex-direction: column; align-items: flex-start; }
+  .hero h1 { font-size: 1.95rem; }
+  .hero-lead { font-size: 1.02rem; }
+  .page-head { padding: 32px 0 28px; }
+  .page-head h1 { font-size: 1.7rem; }
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .feature-grid { gap: 16px; }
+  .feature-grid > * { flex-basis: 100%; }
+  .stats .grid { gap: 28px 12px; padding-top: 36px; padding-bottom: 36px; }
+  .stat b { font-size: 2rem; }
+  .ebook-row { grid-auto-columns: 86%; gap: 16px; }
+  .trainer { grid-template-columns: 1fr; }
+  .trainer-photo { max-width: 280px; }
+  .fact-grid { grid-template-columns: 1fr; }
+  .check-list.cols-2 { grid-template-columns: 1fr; }
+  .cta-band { padding: 32px 24px; }
+  .step { padding: 64px 18px 20px; }
+  .step::before { left: 18px; top: 18px; }
+  .step h2 { position: absolute; left: 62px; top: 21px; right: 16px; }
+}
+
+@media (max-width: 560px) {
+  .header-inner { min-height: 66px; }
+  .brand img { width: 40px; height: 40px; }
+  .brand-text b { font-size: .88rem; }
+  .brand-text span { font-size: .64rem; letter-spacing: .3em; }
+  .hero h1 { font-size: 1.75rem; }
+  .btn-row > .btn { flex: 1 1 auto; }
+  .form-row, .choice-row, .pay-methods { grid-template-columns: 1fr; }
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  .ebook-card { grid-template-columns: 96px 1fr; gap: 14px; padding: 14px; }
+  .ebook-hero { grid-template-columns: 1fr; }
+  .ebook-hero-cover { max-width: 220px; }
+  .card-pad { padding: 20px 18px; }
+  .auth-card { padding: 26px 20px; }
+  .kv { grid-template-columns: 1fr; gap: 2px; }
+  .kv dd { margin-bottom: 10px; }
+  .list-card { flex-wrap: wrap; }
+  .list-card .btn { width: 100%; }
+  .lesson-nav .btn { flex: 1; padding: 10px 12px; }
+  .accordion summary { padding: 14px; }
+  .accordion .acc-body { padding: 4px 14px 12px; }
+  .accordion summary small { display: none; }
+}
+
+@media (max-width: 360px) {
+  .brand-text b { font-size: .8rem; }
+  .brand { gap: 8px; }
+  .brand img { width: 36px; height: 36px; }
+  .card-actions { grid-template-columns: 1fr; }
+  .ebook-card { grid-template-columns: 1fr; }
+  .ebook-card .cover { max-width: 140px; }
+  .btn { padding: 10px 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+}
+
+@media print {
+  .site-header, .site-footer, .wa-float, .announce, .nav-toggle { display: none !important; }
+}

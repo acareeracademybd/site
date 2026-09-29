@@ -1,0 +1,7 @@
+# Cloudflare Pages: pretty URLs for detail pages (status 200 = show the page, keep the address)
+/course/:slug   /course-details   200
+/ebook/:slug    /ebook-details    200
+/blog/:slug     /blog-details     200
+/index          /                 301
+/home           /                 301
+/e-book         /ebooks           301

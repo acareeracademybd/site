@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Admin Login — Accounting Career Academy</title>
+<link rel="icon" href="/assets/logo/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/css/style.css?v=1.0.0">
+<link rel="stylesheet" href="/css/admin.css?v=1.0.0">
+</head>
+<body class="admin">
+<main class="admin-login">
+  <div class="card auth-card">
+    <img src="/assets/logo/logo.svg" alt="Accounting Career Academy" width="260" height="50" style="margin-bottom:18px">
+    <h1 style="font-size:1.4rem">Admin Login</h1>
+    <form class="form" id="admin-login-form" novalidate>
+      <div class="field"><label for="a-email">Email</label><input class="input" id="a-email" type="email" autocomplete="username" required></div>
+      <div class="field"><label for="a-pass">Password</label><input class="input" id="a-pass" type="password" autocomplete="current-password" required></div>
+      <div id="a-alert" role="alert"></div>
+      <button class="btn btn-primary btn-block" type="submit">Login</button>
+      <button class="link-btn" type="button" id="forgot-btn" style="justify-self:start">Forgot password?</button>
+    </form>
+    <form class="form" id="new-pass-form" hidden novalidate>
+      <p class="muted mb-0">Set a new password for your admin account.</p>
+      <div class="field"><label for="n-pass">New password (min 8 characters)</label><input class="input" id="n-pass" type="password" autocomplete="new-password" minlength="8" required></div>
+      <div id="n-alert" role="alert"></div>
+      <button class="btn btn-primary btn-block" type="submit">Save new password</button>
+    </form>
+    <p class="small muted mt-3 mb-0"><a href="/">← Back to website</a></p>
+  </div>
+</main>
+<script type="module" src="/js/admin/login.js?v=1.0.0"></script>
+</body>
+</html>
