@@ -9,8 +9,8 @@
 // =====================================================================
 
 export const CONFIG = {
-  SUPABASE_URL: 'https://YOUR-PROJECT-ID.supabase.co',
-  SUPABASE_ANON_KEY: 'YOUR-ANON-PUBLIC-KEY',
+  SUPABASE_URL: 'https://iukszlozdtvgrrstgshz.supabase.co',
+  SUPABASE_ANON_KEY: 'sb_publishable_PqweS7i57A8gPcntxsOzEQ_q26Uh3Tk',
 
   // Your website address (used for sharing links / sitemap)
   SITE_URL: 'https://www.your-domain.com',
