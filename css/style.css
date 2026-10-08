@@ -482,3 +482,17 @@ button, input, select, textarea { font: inherit; color: inherit; }
   inset:0;
   cursor:pointer;
 }
+.announce:not([hidden])::before{
+  content:"● LIVE  ";
+  color:#FFD600;
+  font-weight:800;
+  text-shadow:1100px 0 0 #FFD600, 2200px 0 0 #FFD600, 3300px 0 0 #FFD600;
+  animation:aca-blink 1s steps(2,jump-none) infinite;
+}
+@keyframes aca-blink{
+  from{opacity:1}
+  to{opacity:.15}
+}
+@media (prefers-reduced-motion:reduce){
+  .announce:not([hidden])::before{animation:none;text-shadow:none}
+}
