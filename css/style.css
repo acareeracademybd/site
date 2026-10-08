@@ -453,7 +453,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   display:block !important;
   color:#FF5252 !important;
   font-weight:700;
-  font-size:1.25rem;
+  font-size:1.4rem;
   padding:10px 0 !important;
   overflow:hidden;
   white-space:nowrap;
@@ -461,7 +461,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
   animation:aca-ticker 30s linear infinite;
 }
 .announce a{
-  color:#FFD600 !important;
+  color:#FF5252 !important;
   font-weight:800;
   text-decoration:underline;
 }
