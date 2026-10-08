@@ -475,3 +475,10 @@ button, input, select, textarea { font: inherit; color: inherit; }
 @media (prefers-reduced-motion:reduce){
   .announce:not([hidden]){animation:none;text-shadow:none;white-space:normal;text-align:center !important}
 }
+.announce:not([hidden]){position:relative}
+.announce a::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  cursor:pointer;
+}
