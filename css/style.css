@@ -448,3 +448,37 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .social a { width: 40px; height: 40px; border-radius: 10px; background: rgba(255, 255, 255, .08); display: flex; align-items: center; justify-content: center; color: #fff; }
 .social a:hover { background: rgba(255, 255, 255, .16); }
 .footer-bottom { margin-top: 44px; border-top: 1px solid rgba(255, 255, 255, .1); padding-top: 18px; padding-bottom: 18px; display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: .88rem; color: #93A8B8; }
+/* === Announcement news ticker === */
+.announce:not([hidden]){
+  display:block !important;
+  background:linear-gradient(90deg,#FFD600,#FF9800,#FFD600) !important;
+  color:#12355B !important;
+  font-weight:700;
+  font-size:1rem;
+  padding:10px 0 !important;
+  overflow:hidden;
+  white-space:nowrap;
+  text-align:left !important;
+  animation:aca-ticker 18s linear infinite;
+}
+.announce a{
+  color:#B00020 !important;
+  font-weight:800;
+  text-decoration:underline;
+}
+.announce:hover{animation-play-state:paused}
+
+@keyframes aca-ticker{
+  from{text-indent:100%}
+  to{text-indent:-100%}
+}
+@media (max-width:700px){
+  .announce:not([hidden]){animation-name:aca-ticker-m}
+  @keyframes aca-ticker-m{
+    from{text-indent:100%}
+    to{text-indent:-300%}
+  }
+}
+@media (prefers-reduced-motion:reduce){
+  .announce:not([hidden]){animation:none;white-space:normal;text-align:center !important}
+}
