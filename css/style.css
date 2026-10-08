@@ -458,7 +458,8 @@ button, input, select, textarea { font: inherit; color: inherit; }
   overflow:hidden;
   white-space:nowrap;
   text-align:left !important;
-  animation:aca-ticker 30s linear infinite;
+  text-shadow:1100px 0 0 #FF5252, 2200px 0 0 #FF5252, 3300px 0 0 #FF5252;
+  animation:aca-ticker 15s linear infinite;
 }
 .announce a{
   color:#FF5252 !important;
@@ -468,16 +469,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .announce:hover{animation-play-state:paused}
 
 @keyframes aca-ticker{
-  fromfrom{text-indent:100%}
-  to{text-indent:-900px}
-}
-@media (max-width:700px){
-  .announce:not([hidden]){animation-name:aca-ticker-m}
-  @keyframes aca-ticker-m{
-    fromfrom{text-indent:100%}
-  to{text-indent:-900px}
-  }
+  from{text-indent:0}
+  to{text-indent:-1100px}
 }
 @media (prefers-reduced-motion:reduce){
-  .announce:not([hidden]){animation:none;white-space:normal;text-align:center !important}
+  .announce:not([hidden]){animation:none;text-shadow:none;white-space:normal;text-align:center !important}
 }
