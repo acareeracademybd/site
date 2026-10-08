@@ -468,14 +468,14 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .announce:hover{animation-play-state:paused}
 
 @keyframes aca-ticker{
-  from{text-indent:100%}
-  to{text-indent:-100%}
+  fromfrom{text-indent:100%}
+  to{text-indent:-780px}
 }
 @media (max-width:700px){
   .announce:not([hidden]){animation-name:aca-ticker-m}
   @keyframes aca-ticker-m{
-    from{text-indent:100%}
-    to{text-indent:-300%}
+    fromfrom{text-indent:100%}
+  to{text-indent:-780px}
   }
 }
 @media (prefers-reduced-motion:reduce){
