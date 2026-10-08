@@ -451,18 +451,17 @@ button, input, select, textarea { font: inherit; color: inherit; }
 /* === Announcement news ticker === */
 .announce:not([hidden]){
   display:block !important;
-  background:linear-gradient(90deg,#FFD600,#FF9800,#FFD600) !important;
-  color:#12355B !important;
+  color:#FF5252 !important;
   font-weight:700;
-  font-size:1rem;
+  font-size:1.25rem;
   padding:10px 0 !important;
   overflow:hidden;
   white-space:nowrap;
   text-align:left !important;
-  animation:aca-ticker 18s linear infinite;
+  animation:aca-ticker 30s linear infinite;
 }
 .announce a{
-  color:#B00020 !important;
+  color:#FFD600 !important;
   font-weight:800;
   text-decoration:underline;
 }
