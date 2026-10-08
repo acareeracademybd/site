@@ -469,13 +469,13 @@ button, input, select, textarea { font: inherit; color: inherit; }
 
 @keyframes aca-ticker{
   fromfrom{text-indent:100%}
-  to{text-indent:-780px}
+  to{text-indent:-900px}
 }
 @media (max-width:700px){
   .announce:not([hidden]){animation-name:aca-ticker-m}
   @keyframes aca-ticker-m{
     fromfrom{text-indent:100%}
-  to{text-indent:-780px}
+  to{text-indent:-900px}
   }
 }
 @media (prefers-reduced-motion:reduce){
