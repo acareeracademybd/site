@@ -7,7 +7,8 @@ export function approvePayment(p, done) {
     submitLabel: 'Approve & give access',
     intro: `<div class="alert alert-info">
         <b>${esc(p.name)}</b> · ${esc(p.email)} · ${esc(p.mobile)}<br>
-        ${esc(p.product_title)} — <b>${money(p.amount)}</b> via ${esc(p.method)} · TrxID <b>${esc(p.transaction_id)}</b>
+        ${esc(p.product_title)}${p.batch ? ' (' + esc(p.batch) + ')' : ''} — <b>${money(p.amount)}</b> via ${esc(p.method)} · TrxID <b>${esc(p.transaction_id)}</b>
+        ${p.last_degree || p.profession ? `<br><span class="small">${esc(p.last_degree || '-')} · ${esc(p.profession || '-')} · Exp: ${esc(p.experience || '-')} · Source: ${esc(p.heard_from || '-')}</span>` : ''}
       </div>
       <p class="small muted mb-0">✔ Check your bKash/Nagad app that this Transaction ID and amount were received before approving.</p>`,
     fields: [{ name: 'expires', label: 'Access expiry date (optional — leave empty for lifetime access)', type: 'datetime', full: true }],
