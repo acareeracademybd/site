@@ -161,6 +161,9 @@ export const api = {
     return rpc('submit_payment', {
       p_name: args.name, p_email: args.email, p_mobile: args.mobile, p_product_type: args.product_type,
       p_product_id: args.product_id, p_method: args.method, p_transaction_id: args.transaction_id, p_sender_number: args.sender_number || null,
+      // Course registration answers (empty for e-books)
+      p_batch: args.batch || null, p_last_degree: args.last_degree || null, p_profession: args.profession || null,
+      p_experience: args.experience || null, p_heard_from: args.heard_from || null, p_agreed: Boolean(args.agreed),
     });
   },
 

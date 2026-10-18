@@ -3,6 +3,7 @@ import { initLayout } from './settings.js';
 import { api } from './supabase.js';
 import { $, $$, esc, icon, money, safeUrl, param, copyText, waLink, emptyState, errorText } from './utils.js';
 import { courseUrl, ebookUrl } from './ui.js';
+import { DEGREES, PROFESSIONS, EXPERIENCE, SOURCES, batchesFor } from './registration.js';
 
 const root = $('#checkout-root');
 const type = param('type') === 'ebook' ? 'ebook' : 'course';
@@ -20,7 +21,31 @@ function waMessage(d, product) {
     `Payment Method: ${d.method === 'bkash' ? 'bKash' : d.method === 'nagad' ? 'Nagad' : 'Free'}`,
     d.sender_number ? `Sender Number: ${d.sender_number}` : '',
     `Transaction ID: ${d.transaction_id || '-'}`,
+    ...(type === 'course' ? [
+      d.batch ? `Batch: ${d.batch}` : '',
+      `Last Degree: ${d.last_degree || '-'}`,
+      `Profession: ${d.profession || '-'}`,
+      `Experience: ${d.experience || '-'}`,
+    ] : []),
   ].filter((l, i) => l || i === 1).join('\n');
+}
+
+// Radio buttons for one registration question
+function radioGroup(name, label, options) {
+  return `<fieldset class="field" style="border:0;padding:0;margin:0">
+    <legend class="label" style="margin-bottom:6px">${label} *</legend>
+    <div class="choice-row" style="flex-wrap:wrap">
+      ${options.map((o, i) => `<label class="choice"><input type="radio" name="${name}" value="${esc(o)}"${i === 0 ? ' required' : ''}><span><b>${esc(o)}</b></span></label>`).join('')}
+    </div>
+  </fieldset>`;
+}
+
+function selectField(id, name, label, options) {
+  return `<div class="field"><label for="${id}">${label} *</label>
+    <select class="input" id="${id}" name="${name}" required>
+      <option value="">— নির্বাচন করুন —</option>
+      ${options.map((o) => `<option value="${esc(o)}">${esc(o)}</option>`).join('')}
+    </select></div>`;
 }
 
 function payCard(name, cls, number, kind) {
@@ -46,6 +71,8 @@ function payCard(name, cls, number, kind) {
   const isFree = !Number(product.price);
   const backUrl = type === 'ebook' ? ebookUrl(product) : courseUrl(product);
   const thumb = type === 'ebook' ? product.cover_url : product.thumbnail_url;
+  const isCourse = type === 'course';
+  const batches = isCourse ? batchesFor(s, product.slug || slug) : [];
 
   root.innerHTML = `
   <div class="checkout-grid">
@@ -63,13 +90,20 @@ function payCard(name, cls, number, kind) {
         <li class="card step" id="step-form">
           <h2>আপনার তথ্য দিন</h2>
           <form class="form" id="pay-form" novalidate>
-            <div class="field"><label for="p-name">Full Name *</label><input class="input" id="p-name" name="name" required maxlength="120" autocomplete="name"></div>
+            <div class="field"><label for="p-name">পূর্ণ নাম (Full Name) *</label><input class="input" id="p-name" name="name" required maxlength="120" autocomplete="name">
+              ${isCourse ? '<span class="hint">সার্টিফিকেটে যেভাবে চান, ইংরেজিতে লিখুন</span>' : ''}</div>
             <div class="form-row">
-              <div class="field"><label for="p-mobile">Mobile *</label><input class="input" id="p-mobile" name="mobile" type="tel" inputmode="tel" required maxlength="20" autocomplete="tel" placeholder="01XXXXXXXXX"></div>
-              <div class="field"><label for="p-email">Email *</label><input class="input" id="p-email" name="email" type="email" required maxlength="200" autocomplete="email" placeholder="you@gmail.com">
+              <div class="field"><label for="p-mobile">WhatsApp নম্বর *</label><input class="input" id="p-mobile" name="mobile" type="tel" inputmode="tel" required maxlength="20" autocomplete="tel" placeholder="01XXXXXXXXX"></div>
+              <div class="field"><label for="p-email">Gmail / Email *</label><input class="input" id="p-email" name="email" type="email" required maxlength="200" autocomplete="email" placeholder="you@gmail.com">
                 <span class="hint">এই ইমেইল দিয়েই লগইন করবেন</span></div>
             </div>
             <div class="field"><span class="label">Product</span><input class="input" value="${esc(product.title)} — ${money(product.price)}" readonly></div>
+            ${isCourse ? `
+            ${batches.length ? `<div class="form-row">${selectField('p-batch', 'batch', 'ব্যাচ নম্বর (Batch No.)', batches)}${selectField('p-degree', 'last_degree', 'সর্বশেষ ডিগ্রি (Last Degree)', DEGREES)}</div>`
+              : selectField('p-degree', 'last_degree', 'সর্বশেষ ডিগ্রি (Last Degree)', DEGREES)}
+            ${radioGroup('profession', 'বর্তমান পেশা (Present Profession)', PROFESSIONS)}
+            ${radioGroup('experience', 'অ্যাকাউন্টিং কাজে অভিজ্ঞতা আছে কি?', EXPERIENCE)}
+            ${radioGroup('heard_from', 'আমাদের সম্পর্কে কোথায় জেনেছেন?', SOURCES)}` : ''}
             ${isFree ? '<input type="hidden" name="method" value="free">' : `
             <fieldset class="field" style="border:0;padding:0;margin:0">
               <legend class="label" style="margin-bottom:6px">Payment Method *</legend>
@@ -82,6 +116,7 @@ function payCard(name, cls, number, kind) {
               <div class="field"><label for="p-sender">Sender Number</label><input class="input" id="p-sender" name="sender_number" type="tel" inputmode="tel" maxlength="20" placeholder="যে নম্বর থেকে পাঠিয়েছেন"></div>
               <div class="field"><label for="p-trx">Transaction ID *</label><input class="input code-input" id="p-trx" name="transaction_id" required maxlength="30" placeholder="e.g. 9A7B6C5D4E" spellcheck="false" autocapitalize="characters"></div>
             </div>`}
+            ${isCourse ? `<label class="choice" style="align-items:flex-start"><input type="checkbox" name="agreed" value="1" required><span>আমার দেওয়া তথ্য সঠিক এবং আমি কোর্সের নিয়ম মেনে চলব। *</span></label>` : ''}
             <div id="pay-alert" role="alert"></div>
             <button class="btn btn-accent btn-block" type="submit">${isFree ? 'Enroll for Free' : 'I Have Made Payment'}</button>
           </form>
@@ -123,6 +158,15 @@ function payCard(name, cls, number, kind) {
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.email)) return show('Please enter a valid email address — you will use it to log in.');
     if (!d.method) return show('Please choose bKash or Nagad.');
     if (!isFree && !/^[A-Z0-9]{6,30}$/.test(d.transaction_id)) return show('Please enter the Transaction ID exactly as shown in your bKash/Nagad SMS.');
+    if (isCourse) {
+      if (batches.length && !d.batch) return show('অনুগ্রহ করে ব্যাচ নম্বর নির্বাচন করুন।');
+      if (!d.last_degree) return show('অনুগ্রহ করে সর্বশেষ ডিগ্রি নির্বাচন করুন।');
+      if (!d.profession) return show('অনুগ্রহ করে বর্তমান পেশা নির্বাচন করুন।');
+      if (!d.experience) return show('অনুগ্রহ করে অভিজ্ঞতা নির্বাচন করুন।');
+      if (!d.heard_from) return show('আমাদের সম্পর্কে কোথায় জেনেছেন — নির্বাচন করুন।');
+      if (!d.agreed) return show('অনুগ্রহ করে সম্মতির ঘরে টিক দিন।');
+    }
+    d.agreed = Boolean(d.agreed);
 
     const btn = form.querySelector('button[type="submit"]');
     btn.disabled = true;
@@ -135,7 +179,7 @@ function payCard(name, cls, number, kind) {
         <div class="success-box">
           <div class="success-icon">${icon('check')}</div>
           <h2 style="position:static">তথ্য জমা হয়েছে!</h2>
-          <p>এখন নিচের বাটনে ক্লিক করে WhatsApp-এ মেসেজটি পাঠান। পেমেন্ট যাচাই হলে আপনাকে <b>Access Code</b> পাঠানো হবে।</p>
+          <p>${isCourse ? 'ধন্যবাদ! পেমেন্ট যাচাইয়ের পর ২৪ ঘণ্টার মধ্যে WhatsApp-এ কোর্স গ্রুপের লিংক ও <b>Access Code</b> পাঠানো হবে।' : 'পেমেন্ট যাচাই হলে আপনাকে <b>Access Code</b> পাঠানো হবে।'} দ্রুত যাচাইয়ের জন্য নিচের বাটনে ক্লিক করে WhatsApp-এ মেসেজটি পাঠান।</p>
           <a class="btn btn-whatsapp btn-block" href="${esc(waLink(s.whatsapp, waMessage(d, product)))}" target="_blank" rel="noopener">${icon('whatsapp')} WhatsApp-এ কনফার্ম করুন</a>
           <p class="small muted mt-3 mb-0">Access Code পাওয়ার পর <a href="/login">Login</a> পেজে আপনার ইমেইল <b>${esc(d.email)}</b> ও কোড দিয়ে লগইন করুন।</p>
         </div>`;
