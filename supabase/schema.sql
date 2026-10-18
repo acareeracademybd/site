@@ -172,6 +172,13 @@ create index if not exists payments_email_idx on public.payments(lower(email), c
 create unique index if not exists payments_trx_unique
   on public.payments (method, upper(transaction_id))
   where status <> 'rejected' and method in ('bkash','nagad');
+-- Course registration answers (added Oct 2026)
+alter table public.payments add column if not exists batch       text;
+alter table public.payments add column if not exists last_degree text;
+alter table public.payments add column if not exists profession  text;
+alter table public.payments add column if not exists experience  text;
+alter table public.payments add column if not exists heard_from  text;
+alter table public.payments add column if not exists agreed_at   timestamptz;
 
 create table if not exists public.enrollments (
   id         uuid primary key default gen_random_uuid(),
@@ -512,9 +519,13 @@ language sql stable security definer set search_path = public, pg_temp as $$
 $$;
 
 -- Payment form ("I Have Made Payment")
+drop function if exists public.submit_payment(text, text, text, text, uuid, text, text, text);
+
 create or replace function public.submit_payment(
   p_name text, p_email text, p_mobile text, p_product_type text, p_product_id uuid,
-  p_method text, p_transaction_id text, p_sender_number text default null
+  p_method text, p_transaction_id text, p_sender_number text default null,
+  p_batch text default null, p_last_degree text default null, p_profession text default null,
+  p_experience text default null, p_heard_from text default null, p_agreed boolean default false
 ) returns json
 language plpgsql volatile security definer set search_path = public, pg_temp as $$
 declare
@@ -522,6 +533,7 @@ declare
   v_email text := lower(trim(coalesce(p_email, '')));
   v_mob   text := regexp_replace(coalesce(p_mobile, ''), '[^0-9+]', '', 'g');
   v_trx   text := upper(trim(coalesce(p_transaction_id, '')));
+  v_batch text := left(nullif(trim(coalesce(p_batch, '')), ''), 60);
   v_title text; v_price numeric; v_id uuid;
 begin
   if char_length(v_name) < 2 or char_length(v_name) > 120 then raise exception 'Please enter your full name.'; end if;
@@ -535,6 +547,20 @@ begin
     select title, price into v_title, v_price from public.ebooks where id = p_product_id and status = 'published';
   end if;
   if v_title is null then raise exception 'This course/e-book is not available.'; end if;
+
+  -- Registration questions (courses only). Keep these lists the same as js/registration.js
+  if p_product_type = 'course' then
+    if coalesce(p_last_degree, '') not in ('HSC','Diploma','Honours / BBA / B.Com','Masters / MBA / M.Com','Other') then
+      raise exception 'অনুগ্রহ করে সর্বশেষ ডিগ্রি নির্বাচন করুন।'; end if;
+    if coalesce(p_profession, '') not in ('ছাত্র/ছাত্রী','চাকরিজীবী','ব্যবসায়ী','চাকরিপ্রার্থী','Other') then
+      raise exception 'অনুগ্রহ করে বর্তমান পেশা নির্বাচন করুন।'; end if;
+    if coalesce(p_experience, '') not in ('নেই','১ বছরের কম','১ বছরের বেশি') then
+      raise exception 'অনুগ্রহ করে অভিজ্ঞতা নির্বাচন করুন।'; end if;
+    if coalesce(p_heard_from, '') not in ('Facebook','YouTube','পরিচিতজন','Other') then
+      raise exception 'আমাদের সম্পর্কে কোথায় জেনেছেন — নির্বাচন করুন।'; end if;
+    if not coalesce(p_agreed, false) then
+      raise exception 'অনুগ্রহ করে সম্মতির ঘরে টিক দিন।'; end if;
+  end if;
 
   if p_method = 'free' then
     if v_price > 0 then raise exception 'Please choose bKash or Nagad.'; end if;
@@ -556,11 +582,18 @@ begin
   end if;
 
   insert into public.payments (name, email, mobile, product_type, course_id, ebook_id, product_title,
-                               amount, method, sender_number, transaction_id)
+                               amount, method, sender_number, transaction_id,
+                               batch, last_degree, profession, experience, heard_from, agreed_at)
   values (v_name, v_email, v_mob, p_product_type,
           case when p_product_type = 'course' then p_product_id end,
           case when p_product_type = 'ebook' then p_product_id end,
-          v_title, v_price, p_method, left(nullif(trim(coalesce(p_sender_number, '')), ''), 20), v_trx)
+          v_title, v_price, p_method, left(nullif(trim(coalesce(p_sender_number, '')), ''), 20), v_trx,
+          case when p_product_type = 'course' then v_batch end,
+          case when p_product_type = 'course' then p_last_degree end,
+          case when p_product_type = 'course' then p_profession end,
+          case when p_product_type = 'course' then p_experience end,
+          case when p_product_type = 'course' then p_heard_from end,
+          case when coalesce(p_agreed, false) then now() end)
   returning id into v_id;
 
   return json_build_object('id', v_id, 'product_title', v_title, 'amount', v_price, 'transaction_id', v_trx);
