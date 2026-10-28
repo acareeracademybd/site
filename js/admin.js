@@ -19,6 +19,10 @@ const NAV = [
   ['testimonials', '/admin/testimonials', 'chat', 'Testimonials'],
   ['messages', '/admin/messages', 'mail', 'Messages'],
   'sep',
+  ['exams', '/admin/exams', 'award', 'Exams'],
+  ['exam-questions', '/admin/exam-questions', 'list', 'Question Bank'],
+  ['exam-results', '/admin/exam-results', 'trend', 'Exam Results'],
+  'sep',
   ['settings', '/admin/settings', 'sliders', 'Website Settings'],
   ['youtube', '/admin/settings#youtube', 'youtube', 'YouTube Settings'],
   ['payment-settings', '/admin/settings#payment', 'card', 'Payment Settings'],
@@ -151,6 +155,11 @@ export function fieldHtml(f, v) {
         ${f.type === 'rich' ? '<span class="hint">Formatting: <b>## Heading</b>, <b>- bullet</b>, <b>1. numbered</b>, <b>**bold**</b>, <b>[link text](https://...)</b>. Leave an empty line between paragraphs.</span>' : ''}</div>`;
     case 'select':
       return `<div class="field${full}">${label}<select class="select" id="${id}" name="${f.name}"${req}>${f.options.map(([ov, ol]) => `<option value="${esc(ov)}"${String(ov) === String(val) ? ' selected' : ''}>${esc(ol)}</option>`).join('')}</select>${hint}</div>`;
+    case 'checks': {
+      const sel = (Array.isArray(val) ? val : []).map(String);
+      return `<fieldset class="field full" style="border:0;padding:0;margin:0"><legend class="label" style="margin-bottom:6px;font-weight:600">${esc(f.label)}</legend>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:6px 14px">${f.options.map(([ov, ol]) => `<label class="check"><input type="checkbox" name="${f.name}" value="${esc(ov)}"${sel.includes(String(ov)) ? ' checked' : ''}> ${esc(ol)}</label>`).join('')}</div>${hint}</fieldset>`;
+    }
     case 'checkbox':
       return `<div class="field${full}"><label class="check"><input type="checkbox" id="${id}" name="${f.name}"${val === true || val === 'true' ? ' checked' : ''}> ${esc(f.label)}</label>${hint}</div>`;
     case 'image':
@@ -179,7 +188,8 @@ export function readForm(form, fields) {
   for (const f of fields) {
     const el = form.elements[f.name];
     if (!el) continue;
-    if (f.type === 'checkbox') out[f.name] = el.checked;
+    if (f.type === 'checks') out[f.name] = Array.from(form.querySelectorAll(`input[name="${f.name}"]:checked`)).map((x) => x.value);
+    else if (f.type === 'checkbox') out[f.name] = el.checked;
     else if (f.type === 'number') out[f.name] = el.value === '' ? null : Number(el.value);
     else if (f.type === 'datetime') out[f.name] = el.value ? new Date(el.value + 'T23:59:59').toISOString() : null;
     else if (f.type === 'date') out[f.name] = el.value || null;
@@ -235,7 +245,7 @@ export function openForm({ title, fields, values = {}, submitLabel = 'Save', onS
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const missing = fields.filter((f) => f.required && f.type !== 'checkbox' && !String(form.elements[f.name]?.value || '').trim());
+    const missing = fields.filter((f) => f.required && f.type !== 'checkbox' && f.type !== 'checks' && !String(form.elements[f.name]?.value || '').trim());
     if (missing.length) { alertBox.innerHTML = `<div class="alert alert-error">Please fill in: ${missing.map((f) => esc(f.label)).join(', ')}</div>`; return; }
     const submit = form.querySelector('[type="submit"]');
     submit.disabled = true;

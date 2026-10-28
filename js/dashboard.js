@@ -89,6 +89,7 @@ function statusBadge(s) {
       <h2>${icon('video')} My Courses</h2>
       ${d.courses.length ? `<div class="grid grid-3">${d.courses.map(courseCardHtml).join('')}</div>`
         : `${emptyState('আপনি এখনো কোনো কোর্সে ভর্তি হননি।', 'video')}<p class="center mt-2"><a class="btn btn-accent btn-sm" href="/courses">Browse courses</a></p>`}
+      ${d.courses.length ? `<div class="alert alert-info mt-2" style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap"><span>${icon('award')} কোর্স শেষে অনলাইন পরীক্ষা দিন — পাশ করলে সার্টিফিকেট।</span><a class="btn btn-primary btn-sm" href="/exam?email=${encodeURIComponent(st.email || '')}">Online Exam ${icon('arrow-right')}</a></div>` : ''}
     </section>
 
     <section class="dash-section" id="my-ebooks">
