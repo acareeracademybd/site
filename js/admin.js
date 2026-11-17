@@ -22,6 +22,7 @@ const NAV = [
   ['exams', '/admin/exams', 'award', 'Exams'],
   ['exam-questions', '/admin/exam-questions', 'list', 'Question Bank'],
   ['exam-results', '/admin/exam-results', 'trend', 'Exam Results'],
+  ['certificates', '/admin/certificates', 'award', 'Certificates'],
   'sep',
   ['settings', '/admin/settings', 'sliders', 'Website Settings'],
   ['youtube', '/admin/settings#youtube', 'youtube', 'YouTube Settings'],

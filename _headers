@@ -31,3 +31,9 @@
 
 /learn
   X-Robots-Tag: noindex, nofollow
+
+/certificate
+  X-Robots-Tag: noindex, nofollow
+
+/verify
+  X-Robots-Tag: noindex, nofollow
